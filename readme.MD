@@ -10,63 +10,27 @@ Para poder usar esta plantilla deberá:
 
 3. Instalar [gcc](https://gcc.gnu.org/)
 
+## Que hace el script run.sh?
+```bash
+    # 1. Ejecuta el programa flex, enviandole como parametro lo que nosotros definimos en el lexico.l (que son las expresiones regulares y los tokens)
+    flex lexico.l
 
-### Windows
+    # 2. Ejecuta el programa bison, enviandole como parametro lo que nosotros definimos en el sintactico.y, los parametros -dyv hacen lo siguiente:
+    # -d -> genera un archivo de cabecera y.tab.h con las definiciones de los tokens
+    # -y -> produce el archivo y.tab.c
+    # -v -> genera el archivo y.output con un informe de los estados del automata LR
+    bison -dyv sintactico.y
 
-Descargue los instaladores para Windows de las siguientes páginas:
+    # 3. Se compila el Analizador Lexico y el Analizador Sintactico con GCC
+    gcc lex.yy.c y.tab.c -o compilador
 
-1. [Flex](http://gnuwin32.sourceforge.net/packages/flex.htm)
-2. [Bison](http://gnuwin32.sourceforge.net/packages/bison.htm)
-3. [GCC](https://sourceforge.net/projects/mingw/files/)
-4. Siga el siguiente [instructivo](https://issuu.com/lilianachisaguano/docs/instalacion_de_flex__bison_y_mingw)
+    # 4. Ejecutamos el compilador recien creado, pasandole como parametro el archivo de test.txt
+    ./compilador test.txt
 
-* Tanto para los binarios instalados flex y bison, es recomendable instalarlos en C:\GnuWin32 y luego agregar "C:\GnuWin32\bin" en variables de entorno -> variables del sistema -> editar variable path y agregar a la lista.
-* Lo mismo para gcc, agregar el path donde sea instalado (ej: C:\MinGW\bin) a las variables del sistema en la variable path.
-
-### Ubuntu
-
-1. Abra una terminal
-2. Ejecute los siguientes comandos:
-
-```sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install flex
-sudo apt-get install bison
-sudo apt install gcc
+    # 5. Eliminamos los archivos que se generaron
+    rm lex.yy.c
+    rm y.tab.c
+    rm y.output
+    rm y.tab.h
+    rm compilador
 ```
-
-3. Verifique la instalación ha sido exitosa ejecutándo los siguientes comandos
-
-```
-which flex
-which bison
-which gcc
-```
-
-### Mac
-
-1. Abra una terminal
-2. Ejecute los siguientes comandos:
-
-```sudo apt-get update
-brew install flex
-brew install bison
-brew install gcc
-```
-3. Verifique la instalación ha sido exitosa ejecutándo los siguientes comandos
-
-```
-which flex
-which bison
-which gcc
-```
-
-## Ejecución  
-
-### Windows
-
-Ejecutar el archivo run.bat
-
-### Linux / Unix
-
-Ejecutar el archivo run.sh
